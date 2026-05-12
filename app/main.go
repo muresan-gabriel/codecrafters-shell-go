@@ -14,6 +14,12 @@ func main() {
 			return
 		}
 		input := scanner.Text()
+
+		switch input {
+		case "exit":
+			return
+		}
+
 		fmt.Printf("%s: command not found\n", input)
 	}
 }
