@@ -5,28 +5,34 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/codecrafters-io/shell-starter-go/lib"
 )
 
 func main() {
 	for true {
 		fmt.Print("$ ")
 		scanner := bufio.NewScanner(os.Stdin)
+
 		if !scanner.Scan() {
 			return
 		}
+
 		input := scanner.Text()
 		splitInput := strings.Split(input, " ")
-		switch splitInput[0] {
-		case "exit":
+		command := splitInput[0]
+		args := splitInput[1:]
+		firstArg := args[0]
+
+		switch command {
+		case lib.Command[lib.Exit]:
 			return
-		case "echo":
-			echoedString := ""
-			for _, value := range splitInput[1:] {
-				echoedString += value + " "
-			}
-			fmt.Println(echoedString)
+		case lib.Command[lib.Echo]:
+			lib.EchoHandler(args)
+		case lib.Command[lib.Type]:
+			lib.TypeHandler(firstArg)
 		default:
-			fmt.Printf("%s: command not found\n", input)
+			lib.NotFoundHandler(input)
 		}
 	}
 }
