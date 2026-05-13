@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/codecrafters-io/shell-starter-go/lib"
+	"github.com/muresan-gabriel/shell-starter-go/lib"
 )
 
 func main() {
