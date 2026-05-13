@@ -33,42 +33,29 @@ func isExecAny(mode os.FileMode) bool {
 }
 
 func TypeHandler(input string) {
-	found := false
 	for _, name := range Command {
 		if name == input {
-			found = true
 			fmt.Printf("%s is a shell builtin\n", input)
-			break
+			return
 		}
 	}
 
 	pathDirs := strings.SplitSeq(os.Getenv("PATH"), ":")
 
-	exists := false
-	executable := false
-
 	for dir := range pathDirs {
-		res := strings.Contains(dir, input)
+		filePath := dir + "/" + input
 
-		if res {
-			exists = true
-		}
-
-		fileInfo, err := os.Stat(dir)
+		fileInfo, err := os.Stat(filePath)
 
 		if err == nil {
-			executable = isExecAny(fileInfo.Mode())
-		}
-
-		if exists && executable {
-			fmt.Printf("%s is %s\n", input, dir)
-			return
+			if isExecAny(fileInfo.Mode()) {
+				fmt.Printf("%s is %s\n", input, filePath)
+				return
+			}
 		}
 	}
 
-	if !found {
-		fmt.Printf("%s: not found\n", input)
-	}
+	fmt.Printf("%s: not found\n", input)
 }
 
 func NotFoundHandler(input string) {
