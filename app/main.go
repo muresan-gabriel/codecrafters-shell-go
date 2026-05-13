@@ -31,7 +31,7 @@ func main() {
 		case lib.Command[lib.Type]:
 			lib.TypeHandler(args[0])
 		default:
-			lib.NotFoundHandler(input)
+			lib.DefaultHandler(input, args)
 		}
 	}
 }
