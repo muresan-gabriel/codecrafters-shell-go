@@ -7,8 +7,6 @@ import (
 	"strings"
 )
 
-func echo(input) {}
-
 func main() {
 	for true {
 		fmt.Print("$ ")
