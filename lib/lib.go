@@ -77,8 +77,8 @@ func TypeHandler(input string) {
 	fmt.Printf("%s: not found\n", input)
 }
 
-func DefaultHandler(input string, args []string) {
-	fileInfo, filePath, err := getFileData(input)
+func DefaultHandler(command string, args []string) {
+	fileInfo, filePath, err := getFileData(command)
 
 	if err == nil && isExecAny(fileInfo.Mode()) {
 		cmd := exec.Command(filePath, args...)
@@ -93,5 +93,5 @@ func DefaultHandler(input string, args []string) {
 		return
 	}
 
-	fmt.Printf("%s: command not found\n", input)
+	fmt.Printf("%s: command not found\n", command)
 }
