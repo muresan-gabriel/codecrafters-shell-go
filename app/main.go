@@ -4,7 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
+
+func echo(input) {}
 
 func main() {
 	for true {
@@ -14,12 +17,18 @@ func main() {
 			return
 		}
 		input := scanner.Text()
-
-		switch input {
+		splitInput := strings.Split(input, " ")
+		switch splitInput[0] {
 		case "exit":
 			return
+		case "echo":
+			echoedString := ""
+			for _, value := range splitInput[1:] {
+				echoedString += value + " "
+			}
+			fmt.Println(echoedString)
+		default:
+			fmt.Printf("%s: command not found\n", input)
 		}
-
-		fmt.Printf("%s: command not found\n", input)
 	}
 }
