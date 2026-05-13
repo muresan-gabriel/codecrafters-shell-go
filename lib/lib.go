@@ -41,7 +41,9 @@ func getSliceOfPathDirs() iter.Seq[string] {
 
 func isShellBuiltIn(input string) bool {
 	for _, name := range Command {
-		return name == input
+		if name == input {
+			return true
+		}
 	}
 
 	return false
@@ -53,7 +55,7 @@ func getFileData(input string) (os.FileInfo, string, error) {
 	for dir := range pathDirs {
 		filePath := dir + "/" + input
 		fileInfo, err := os.Stat(filePath)
-		if err == nil {
+		if err == nil && isExecAny(fileInfo.Mode()) {
 			return fileInfo, filePath, nil
 		}
 	}
