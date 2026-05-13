@@ -83,7 +83,7 @@ func DefaultHandler(command string, args []string) {
 	fileInfo, filePath, err := getFileData(command)
 
 	if err == nil && isExecAny(fileInfo.Mode()) {
-		cmd := exec.Command(filePath, args...)
+		cmd := exec.Command(filePath, append([]string{command}, args...)...)
 
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
