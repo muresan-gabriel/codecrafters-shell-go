@@ -22,7 +22,6 @@ func main() {
 		splitInput := strings.Split(input, " ")
 		command := splitInput[0]
 		args := splitInput[1:]
-		firstArg := args[0]
 
 		switch command {
 		case lib.Command[lib.Exit]:
@@ -30,7 +29,7 @@ func main() {
 		case lib.Command[lib.Echo]:
 			lib.EchoHandler(args)
 		case lib.Command[lib.Type]:
-			lib.TypeHandler(firstArg)
+			lib.TypeHandler(args[0])
 		default:
 			lib.NotFoundHandler(input)
 		}
