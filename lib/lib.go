@@ -1,6 +1,10 @@
 package lib
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strings"
+)
 
 type Commands int
 
@@ -24,6 +28,10 @@ func EchoHandler(input []string) {
 	fmt.Println(echoedString)
 }
 
+func isExecAny(mode os.FileMode) bool {
+	return mode&0111 != 0
+}
+
 func TypeHandler(input string) {
 	found := false
 	for _, name := range Command {
@@ -31,6 +39,30 @@ func TypeHandler(input string) {
 			found = true
 			fmt.Printf("%s is a shell builtin\n", input)
 			break
+		}
+	}
+
+	pathDirs := strings.SplitSeq(os.Getenv("PATH"), ":")
+
+	exists := false
+	executable := false
+
+	for dir := range pathDirs {
+		res := strings.Contains(dir, input)
+
+		if res {
+			exists = true
+		}
+
+		fileInfo, err := os.Stat(dir)
+
+		if err == nil {
+			executable = isExecAny(fileInfo.Mode())
+		}
+
+		if exists && executable {
+			fmt.Printf("%s is %s\n", input, dir)
+			return
 		}
 	}
 
